@@ -267,13 +267,15 @@ nmap ,da ggdG<CR>
 nmap ,o <Esc>:TagbarOpen j<CR>/
 nmap ,t <Esc>:NERDTree<CR>
 nmap ,tm <Esc>:NERDTreeMirror<CR>
-nmap ,ls :source ~/.vimrc<CR>
+nmap ,ls :source ~/.vim/vimrc<CR>
 
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%' 
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-l> <Right>
+inoremap <C-b> <Esc>:w<CR>:b 
+inoremap <C-w> <Esc>:w<CR>i
 nmap ,s" ysiw"a
 if has('autocmd') 
 	autocmd FileType clojure nmap ,e :w<CR>maggcpG`a
@@ -294,13 +296,17 @@ if has('autocmd')
 	autocmd FileType java nmap ,pk :Ant debug install<CR>
 	autocmd FileType java nmap ,si :JavaImportOrganize<CR>
 	autocmd FileType java nmap ,sf :%JavaFormat<CR>
+	autocmd FileType java nmap ,sc :JavaCorrect<CR>
 	autocmd FileType java nmap ,ig :JavaGetSet!<CR>
-	autocmd FileType java nmap ,ii :JavaImpl!<CR>
+	autocmd FileType java nmap ,ii :JavaImpl<CR>
 	autocmd FileType java nmap ,ic :JavaConstructor!<CR>
+	autocmd FileType java nmap ,id :JavaDocComment<CR>
 	autocmd FileType java nmap ,rn :JavaRename 
+	autocmd FileType java nmap ,gd :JavaSearchContext 
 	autocmd FileType python setlocal omnifunc=jedi#completions
 	autocmd FileType python TagbarOpen<CR>
-	autocmd FileType python NERDTree
 	autocmd FileType python nmap ,e :w !python<CR>
 endif
-
+if has('gui')
+	set guifont=Nimbus\ Mono\ L\ 12
+endif
