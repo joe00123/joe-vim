@@ -298,6 +298,7 @@ if has('autocmd')
 	autocmd FileType java nmap ,pk :Ant debug install<CR>
 	autocmd FileType java nmap ,si :JavaImportOrganize<CR>
 	autocmd FileType java nmap ,sf :%JavaFormat<CR>
+	autocmd FileType java nmap ,sc :JavaCorrect<CR>
 	autocmd FileType java nmap ,ig :JavaGetSet!<CR>
 	autocmd FileType java nmap ,ii :JavaImpl<CR>
 	autocmd FileType java nmap ,ic :JavaConstructor!<CR>
@@ -312,3 +313,6 @@ let g:airline#extensions#tabline#enabled = 1
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
+if has('gui')
+	set guifont=Nimbus\ Mono\ L\ 12
+endif
