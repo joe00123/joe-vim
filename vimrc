@@ -267,7 +267,9 @@ nmap ,da ggdG<CR>
 nmap ,o <Esc>:TagbarOpen j<CR>/
 nmap ,t <Esc>:NERDTree<CR>
 nmap ,tm <Esc>:NERDTreeMirror<CR>
+nmap ,tt <Esc>t:NERDTreeMirror<CR>
 nmap ,ls :source ~/.vim/vimrc<CR>
+nmap ,q :wa<CR>:qa!<CR>
 
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%' 
 inoremap <C-h> <Left>
@@ -288,8 +290,8 @@ if has('autocmd')
 	autocmd FileType java nmap ,dl :JavaDebugBreakpointsList<CR>
 	autocmd FileType java nmap ,ds :JavaDebugStatus<CR>
 	autocmd FileType java nmap ,dd :JavaDebugBreakpointRemove<CR>
-	autocmd FileType java nmap ,db :JavaDebugStart localhost 8700<CR>
-	autocmd FileType java nmap ,do :JavaDebugStep over<CR>
+	autocmd FileType java nmap ,db :JavaDebugStart localhost 1044<CR>
+	autocmd FileType java nmap ,do :JavaDebugStep over<CR>,ds
 	autocmd FileType java nmap ,di :JavaDebugStep into<CR>
 	autocmd FileType java nmap ,dr :JavaDebugStep return<CR>
 	autocmd FileType java nmap ,de :JavaDebugStop<CR>
@@ -306,4 +308,7 @@ if has('autocmd')
 	autocmd FileType python TagbarOpen<CR>
 	autocmd FileType python nmap ,e :w !python<CR>
 endif
-
+let g:airline#extensions#tabline#enabled = 1
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
