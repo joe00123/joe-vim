@@ -309,6 +309,7 @@ if has('autocmd')
 	autocmd FileType python TagbarOpen<CR>
 	autocmd FileType python nmap ,e :w !python<CR>
 endif
+let NERDTreeIgnore=['.pyc$[[file]]','.class$[[file]]']
 let g:airline#extensions#tabline#enabled = 1
 set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8

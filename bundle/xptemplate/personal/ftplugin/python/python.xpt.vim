@@ -108,3 +108,6 @@ class `User^(Resource):
         return {}
 api.add_resource(`User^, '/`user^/<string:id>')
 
+
+XPT mitem
+u'`key^':u'`key^', 
