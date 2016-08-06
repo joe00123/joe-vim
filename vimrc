@@ -296,18 +296,35 @@ if has('autocmd')
 	autocmd FileType java nmap ,dr :JavaDebugStep return<CR>
 	autocmd FileType java nmap ,de :JavaDebugStop<CR>
 	autocmd FileType java nmap ,pk :Ant debug install<CR>
-	autocmd FileType java nmap ,si :JavaImportOrganize<CR>
+	autocmd FileType java,groovy nmap ,si :JavaImportOrganize<CR>
 	autocmd FileType java nmap ,sf :%JavaFormat<CR>
 	autocmd FileType java nmap ,sc :JavaCorrect<CR>
 	autocmd FileType java nmap ,ig :JavaGetSet!<CR>
-	autocmd FileType java nmap ,ii :JavaImpl<CR>
+	autocmd FileType java,groovy nmap ,ii :JavaImpl<CR>
 	autocmd FileType java nmap ,ic :JavaConstructor!<CR>
-	autocmd FileType java nmap ,id :JavaDocComment<CR>
+	autocmd FileType java,groovy nmap ,id :JavaDocComment<CR>
 	autocmd FileType java nmap ,rn :JavaRename 
 	autocmd FileType java nmap ,gd :JavaSearchContext 
 	autocmd FileType python setlocal omnifunc=jedi#completions
 	autocmd FileType python TagbarOpen<CR>
 	autocmd FileType python nmap ,e :w !python<CR>
+	autocmd FileType groovy nmap ,e :w<CR>:!groovy -classpath ./ % 
+	autocmd FileType typescript let g:tsuquyomi_disable_quickfix = 1
+	autocmd FileType typescript let g:syntastic_typescript_checkers = ['tsuquyomi'] " You shouldn't use 'tsc' checker."
+endif
+if has("cscope")
+	" set cscopequickfix=s-,c-,d-,i-,t-,e-
+	set csto=1
+	" set cst
+	" set csverb
+	nmap ,cs :cs find s <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+	nmap ,cg :cs find g <C-R>=expand("<cword>")<CR><CR>
+	nmap ,cc :cs find c <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+	nmap ,ct :cs find t <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+	nmap ,ce :cs find e <C-R>=expand("<cword>")<CR><CR>:copen<CR>
+	nmap ,cf :cs find f <C-R>=expand("<cfile>")<CR><CR>:copen<CR>
+	nmap ,ci :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>:copen<CR>
+	nmap ,cd :cs find d <C-R>=expand("<cword>")<CR><CR>:copen<CR>
 endif
 let NERDTreeIgnore=['.pyc$[[file]]','.class$[[file]]']
 let g:airline#extensions#tabline#enabled = 1
@@ -317,3 +334,12 @@ set encoding=utf-8
 if has('gui')
 	set guifont=Nimbus\ Mono\ L\ 12
 endif
+let g:ycm_filetype_specific_completion_to_disable = { 'python': 1  }
+set rtp+=~/.vim/bundle/jsx.vim-master
+
+function! Save()
+	let b:tmp = &ft
+	execute 'w'
+	execute "set ft=".b:tmp
+endfunction
+imap ,w <Esc>:call Save()<CR>
