@@ -218,7 +218,9 @@ endif
 
 "tagbar配置
 autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx,*.clj,*.java,*.groovy call tagbar#autoopen()
+autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx,*.clj,*.java,*.groovy,*.py :IndentGuidesToggle
 "autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx,*.clj,*.java,*.groovy :NERDTree 
+au InsertLeave *.* write 
 let g:tagbar_ctags_bin='/usr/local/bin/ctags'
 let g:tagbar_type_arduino = {
     \ 'ctagstype' : 'c++',
@@ -258,6 +260,14 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 let g:syntastic_java_javac_classpath='/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_05.jdk/Contents/Home/lib/dt.jar./lib/*.jar:./WebRoot/WEB-INF/classes:'
+"代码缩进颜色
+let g:indent_guides_auto_colors = 0
+let g:indent_guides_enable_on_vim_startup = 0
+" hi IndentGuidesOdd  ctermbg=cyan
+" hi IndentGuidesEven ctermbg=black
+autocmd FileType python set colorcolumn=80
+set t_Co=256
+set cursorline
 
 imap <D-1> <ESC>:JavaImportOrganize<CR>i
 "解释clojure文件缓存
@@ -268,7 +278,8 @@ nmap ,o <Esc>:TagbarOpen j<CR>/
 nmap ,t <Esc>:NERDTree<CR>
 nmap ,tm <Esc>:NERDTreeMirror<CR>
 nmap ,tt <Esc>t:NERDTreeMirror<CR>
-nmap ,ls :source ~/.vim/vimrc<CR>
+nmap ,vs :source ~/.vim/vimrc<CR>
+nmap ,ve :e ~/.vim/vimrc<CR>
 nmap ,q :wa<CR>:qa!<CR>
 
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%' 
@@ -304,7 +315,7 @@ if has('autocmd')
 	autocmd FileType java nmap ,ic :JavaConstructor!<CR>
 	autocmd FileType java,groovy nmap ,id :JavaDocComment<CR>
 	autocmd FileType java nmap ,rn :JavaRename 
-	autocmd FileType java nmap ,gd :JavaSearchContext 
+	autocmd FileType java,groovy nmap ,gd :JavaSearchContext 
 	autocmd FileType python setlocal omnifunc=jedi#completions
 	autocmd FileType python TagbarOpen<CR>
 	autocmd FileType python nmap ,e :w !python<CR>
@@ -343,3 +354,29 @@ function! Save()
 	execute "set ft=".b:tmp
 endfunction
 imap ,w <Esc>:call Save()<CR>
+imap ,y <Esc>"+yiw
+imap ,/ <Esc><Leader>__a
+imap ,diw <Esc>diwi
+imap ,gh <Esc>0i
+imap ,ge <Esc>$i
+imap ,gf <Esc>/
+
+function! Zoom ()
+    " check if is the zoomed state (tabnumber > 1 && window == 1)
+    if tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
+        let l:cur_winview = winsaveview()
+        let l:cur_bufname = bufname('')
+        tabclose
+
+        " restore the view
+        if l:cur_bufname == bufname('')
+            call winrestview(cur_winview)
+        endif
+    else
+        tab split
+    endif
+endfunction
+
+nmap <leader>z :call Zoom()<CR>
+
+set dictionary+=./dict.txt
