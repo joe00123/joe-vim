@@ -269,7 +269,6 @@ autocmd FileType python set colorcolumn=80
 set t_Co=256
 set cursorline
 
-imap <D-1> <ESC>:JavaImportOrganize<CR>i
 "解释clojure文件缓存
 nmap ,b :e!#<CR>
 "删除缓存内容
@@ -281,7 +280,10 @@ nmap ,tt <Esc>t:NERDTreeMirror<CR>
 nmap ,vs :source ~/.vim/vimrc<CR>
 nmap ,ve :e ~/.vim/vimrc<CR>
 nmap ,q :wa<CR>:qa!<CR>
-
+nmap ,tag :!ctags -R --language-force=java --fields=+iaS --extra=+q  .
+vmap ,cp "+y
+nmap ,pp "+p
+nmap ,tl :Egrep -ir 'todo\\|fixme'
 cnoremap <expr> %% getcmdtype( ) == ':' ? expand('%:h').'/' : '%%' 
 inoremap <C-h> <Left>
 inoremap <C-j> <Down>
@@ -289,6 +291,13 @@ inoremap <C-k> <Up>
 inoremap <C-l> <Right>
 inoremap <C-b> <Esc>:w<CR>:b 
 inoremap <C-w> <Esc>:w<CR>i
+imap ,w <Esc>:call Save()<CR>
+imap ,y <Esc>"+yiw
+imap ,/ <Esc><Leader>__a
+imap ,diw <Esc>diwi
+imap ,gh <Esc>0i
+imap ,ge <Esc>$i
+imap ,gf <Esc>/
 nmap ,s" ysiw"a
 if has('autocmd') 
 	autocmd FileType clojure nmap ,e :w<CR>maggcpG`a
@@ -353,30 +362,7 @@ function! Save()
 	execute 'w'
 	execute "set ft=".b:tmp
 endfunction
-imap ,w <Esc>:call Save()<CR>
-imap ,y <Esc>"+yiw
-imap ,/ <Esc><Leader>__a
-imap ,diw <Esc>diwi
-imap ,gh <Esc>0i
-imap ,ge <Esc>$i
-imap ,gf <Esc>/
 
-function! Zoom ()
-    " check if is the zoomed state (tabnumber > 1 && window == 1)
-    if tabpagenr('$') > 1 && tabpagewinnr(tabpagenr(), '$') == 1
-        let l:cur_winview = winsaveview()
-        let l:cur_bufname = bufname('')
-        tabclose
-
-        " restore the view
-        if l:cur_bufname == bufname('')
-            call winrestview(cur_winview)
-        endif
-    else
-        tab split
-    endif
-endfunction
-
-nmap <leader>z :call Zoom()<CR>
+nmap <leader>z :MaximizerToggle<CR>
 
 set dictionary+=./dict.txt
